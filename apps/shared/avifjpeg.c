@@ -1,9 +1,10 @@
 // Copyright 2020 Joe Drago. All rights reserved.
 // SPDX-License-Identifier: BSD-2-Clause
 
+#include "avifutil.h"
 #include "avifjpeg.h"
 #include "avifexif.h"
-#include "avifutil.h"
+
 
 #include <assert.h>
 #include <ctype.h>
@@ -1321,7 +1322,7 @@ static avifBool avifJPEGReadInternal(FILE * f,
         // JPEG pixels were successfully copied without conversion. Notify the enduser.
 
         assert(inputFilename); // JPEG read doesn't support stdin
-        printf("Directly copied JPEG pixel data (no YUV conversion): %s\n", inputFilename);
+        fprintf(stderr,"Directly copied JPEG pixel data (no YUV conversion): %s\n", inputFilename);
     } else {
         // JPEG pixels could not be copied without conversion. Request (converted) RGB pixels from
         // libjpeg and convert to YUV with libavif instead.
@@ -1790,7 +1791,7 @@ avifBool avifJPEGWrite(const char * outputFilename, const avifImage * avif, int 
 
     jpeg_finish_compress(&cinfo);
     ret = AVIF_TRUE;
-    printf("Wrote JPEG: %s\n", outputFilename);
+    fprintf(stderr,"Wrote JPEG: %s\n", outputFilename);
 cleanup:
     if (f) {
         fclose(f);

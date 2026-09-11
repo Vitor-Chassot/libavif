@@ -188,143 +188,143 @@ typedef struct avifEncodedByteSizes
 
 static void syntaxShort(void)
 {
-    printf("Syntax: avifenc [options] -q quality input.[jpg|jpeg|png|y4m] output.avif\n");
-    printf("where quality is between %d (worst quality) and %d (lossless).\n", AVIF_QUALITY_WORST, AVIF_QUALITY_LOSSLESS);
-    printf("Typical value is 60-80.\n\n");
-    printf("Try -h for an exhaustive list of options.\n");
+    fprintf(stderr,"Syntax: avifenc [options] -q quality input.[jpg|jpeg|png|y4m] output.avif\n");
+    fprintf(stderr,"where quality is between %d (worst quality) and %d (lossless).\n", AVIF_QUALITY_WORST, AVIF_QUALITY_LOSSLESS);
+    fprintf(stderr,"Typical value is 60-80.\n\n");
+    fprintf(stderr,"Try -h for an exhaustive list of options.\n");
 }
 
 static void syntaxLong(void)
 {
-    printf("Syntax: avifenc [options] input.[jpg|jpeg|png|y4m] output.avif\n");
-    printf("Standard options:\n");
-    printf("    -h,--help                         : Show syntax help (this page)\n");
-    printf("    -V,--version                      : Show the version number\n");
-    printf("\n");
-    printf("Basic options:\n");
-    printf("    -q,--qcolor Q                     : Quality for color in %d..%d where %d is lossless\n",
+    fprintf(stderr,"Syntax: avifenc [options] input.[jpg|jpeg|png|y4m] output.avif\n");
+    fprintf(stderr,"Standard options:\n");
+    fprintf(stderr,"    -h,--help                         : Show syntax help (this page)\n");
+    fprintf(stderr,"    -V,--version                      : Show the version number\n");
+    fprintf(stderr,"\n");
+    fprintf(stderr,"Basic options:\n");
+    fprintf(stderr,"    -q,--qcolor Q                     : Quality for color in %d..%d where %d is lossless\n",
            AVIF_QUALITY_WORST,
            AVIF_QUALITY_BEST,
            AVIF_QUALITY_LOSSLESS);
-    printf("    --qalpha Q                        : Quality for alpha in %d..%d where %d is lossless\n",
+    fprintf(stderr,"    --qalpha Q                        : Quality for alpha in %d..%d where %d is lossless\n",
            AVIF_QUALITY_WORST,
            AVIF_QUALITY_BEST,
            AVIF_QUALITY_LOSSLESS);
-    printf("    -s,--speed S                      : Encoder speed in %d..%d where 0 is the slowest, 10 is the fastest. Or 'default' or 'd' for codec internal defaults. (Default: 6)\n",
+    fprintf(stderr,"    -s,--speed S                      : Encoder speed in %d..%d where 0 is the slowest, 10 is the fastest. Or 'default' or 'd' for codec internal defaults. (Default: 6)\n",
            AVIF_SPEED_SLOWEST,
            AVIF_SPEED_FASTEST);
-    printf("\n");
-    printf("Advanced options:\n");
-    printf("    -j,--jobs J                       : Number of jobs (worker threads), or 'all' to potentially use as many cores as possible. (Default: all)\n");
-    printf("    --no-overwrite                    : Never overwrite existing output file\n");
-    printf("    -o,--output FILENAME              : Instead of using the last filename given as output, use this filename\n");
+    fprintf(stderr,"\n");
+    fprintf(stderr,"Advanced options:\n");
+    fprintf(stderr,"    -j,--jobs J                       : Number of jobs (worker threads), or 'all' to potentially use as many cores as possible. (Default: all)\n");
+    fprintf(stderr,"    --no-overwrite                    : Never overwrite existing output file\n");
+    fprintf(stderr,"    -o,--output FILENAME              : Instead of using the last filename given as output, use this filename\n");
 #if defined(AVIF_ENABLE_EXPERIMENTAL_MINI)
-    printf("    --mini                            : EXPERIMENTAL: Use reduced header if possible (backward-incompatible)\n");
+    fprintf(stderr,"    --mini                            : EXPERIMENTAL: Use reduced header if possible (backward-incompatible)\n");
 #endif
-    printf("    -l,--lossless                     : Set all defaults to encode losslessly, and emit warnings when settings/input don't allow for it\n");
-    printf("    -d,--depth D[,Dextension]         : D is the output bit depth per channel. D must be 8, 10 or 12. (JPEG/PNG only; y4m or stdin: bit depth is retained)\n");
-    printf("                                        If specified, Dextension adds a hidden encoded image of Dextension bit depth in the same file as the primary image to reach 16-bit depth at decoding.\n");
-    printf("                                        See avifSampleTransformRecipe for the supported combinations (8,8 and 12,4 and 12,8).\n");
-    printf("    -y,--yuv FORMAT                   : Output format, one of 'auto' (default), 444, 422, 420 or 400. Ignored for y4m or stdin (y4m format is retained)\n");
-    printf("                                        For JPEG, auto honors the JPEG's internal format, if possible. For grayscale PNG, auto defaults to 400. For all other cases, auto defaults to 444\n");
-    printf("    -p,--premultiply                  : Premultiply color by the alpha channel and signal this in the AVIF\n");
-    printf("    --sharpyuv                        : Use sharp RGB to YUV420 conversion (if supported). Ignored for y4m or if output is not 420.\n");
-    printf("    --stdin                           : Read input from stdin instead of file paths. No other input is allowed. The input format is assumed to be y4m unless --input-format is specified. The output file path must still be provided.\n");
-    printf("    --input-format FORMAT             : File format of the input data. One of: jpeg/png/y4m/auto. (Default: auto, except for stdin where auto is not supported and the default is y4m)\n");
-    printf("    --cicp,--nclx P/T/M               : Set CICP values (nclx colr box) (3 raw numbers, use -r to set range flag)\n");
-    printf("                                        P = color primaries\n");
-    printf("                                        T = transfer characteristics\n");
-    printf("                                        M = matrix coefficients\n");
-    printf("                                        Use 2 for any you wish to leave unspecified\n");
-    printf("    -r,--range RANGE                  : YUV range, one of 'limited' or 'l', 'full' or 'f'. (JPEG/PNG only, default: full; For y4m or stdin, range is retained)\n");
-    printf("    --target-size S                   : Set target file size in bytes (up to 7 times slower)\n");
-    printf("    --progressive                     : Automatically set parameters to encode a simple layered image supporting progressive rendering from a single input frame.\n");
-    printf("    --layered                         : Encode a layered AVIF. Each input is encoded as one layer and at most %d layers can be encoded.\n",
+    fprintf(stderr,"    -l,--lossless                     : Set all defaults to encode losslessly, and emit warnings when settings/input don't allow for it\n");
+    fprintf(stderr,"    -d,--depth D[,Dextension]         : D is the output bit depth per channel. D must be 8, 10 or 12. (JPEG/PNG only; y4m or stdin: bit depth is retained)\n");
+    fprintf(stderr,"                                        If specified, Dextension adds a hidden encoded image of Dextension bit depth in the same file as the primary image to reach 16-bit depth at decoding.\n");
+    fprintf(stderr,"                                        See avifSampleTransformRecipe for the supported combinations (8,8 and 12,4 and 12,8).\n");
+    fprintf(stderr,"    -y,--yuv FORMAT                   : Output format, one of 'auto' (default), 444, 422, 420 or 400. Ignored for y4m or stdin (y4m format is retained)\n");
+    fprintf(stderr,"                                        For JPEG, auto honors the JPEG's internal format, if possible. For grayscale PNG, auto defaults to 400. For all other cases, auto defaults to 444\n");
+    fprintf(stderr,"    -p,--premultiply                  : Premultiply color by the alpha channel and signal this in the AVIF\n");
+    fprintf(stderr,"    --sharpyuv                        : Use sharp RGB to YUV420 conversion (if supported). Ignored for y4m or if output is not 420.\n");
+    fprintf(stderr,"    --stdin                           : Read input from stdin instead of file paths. No other input is allowed. The input format is assumed to be y4m unless --input-format is specified. The output file path must still be provided.\n");
+    fprintf(stderr,"    --input-format FORMAT             : File format of the input data. One of: jpeg/png/y4m/auto. (Default: auto, except for stdin where auto is not supported and the default is y4m)\n");
+    fprintf(stderr,"    --cicp,--nclx P/T/M               : Set CICP values (nclx colr box) (3 raw numbers, use -r to set range flag)\n");
+    fprintf(stderr,"                                        P = color primaries\n");
+    fprintf(stderr,"                                        T = transfer characteristics\n");
+    fprintf(stderr,"                                        M = matrix coefficients\n");
+    fprintf(stderr,"                                        Use 2 for any you wish to leave unspecified\n");
+    fprintf(stderr,"    -r,--range RANGE                  : YUV range, one of 'limited' or 'l', 'full' or 'f'. (JPEG/PNG only, default: full; For y4m or stdin, range is retained)\n");
+    fprintf(stderr,"    --target-size S                   : Set target file size in bytes (up to 7 times slower)\n");
+    fprintf(stderr,"    --progressive                     : Automatically set parameters to encode a simple layered image supporting progressive rendering from a single input frame.\n");
+    fprintf(stderr,"    --layered                         : Encode a layered AVIF. Each input is encoded as one layer and at most %d layers can be encoded.\n",
            AVIF_MAX_AV1_LAYER_COUNT);
-    printf("    -g,--grid MxN                     : Encode a single-image grid AVIF with M cols & N rows. Either supply MxN identical W/H/D images, or a single\n");
-    printf("                                        image that can be evenly split into the MxN grid and follow AVIF grid image restrictions. The grid will adopt\n");
-    printf("                                        the color profile of the first image supplied.\n");
-    printf("    -c,--codec C                      : Codec to use (choose from versions list below)\n");
-    printf("    --exif FILENAME                   : Provide an Exif metadata payload to be associated with the primary item (implies --ignore-exif)\n");
-    printf("    --xmp FILENAME                    : Provide an XMP metadata payload to be associated with the primary item (implies --ignore-xmp)\n");
-    printf("    --icc FILENAME                    : Provide an ICC profile payload to be associated with the primary item (implies --ignore-icc)\n");
-    printf("    --timescale,--fps V               : Timescale for image sequences. If all frames are 1 timescale in length, this is equivalent to frames per second. (Default: 30)\n");
-    printf("                                        If neither duration nor timescale are set, avifenc will attempt to use the framerate stored in a y4m header, if present.\n");
-    printf("    --creation-time                   : Creation time for image sequences, in seconds since 1970-01-01 00:00:00 UTC (the Unix epoch). (Default: 0, use the modification time)\n");
-    printf("    --modification-time               : Modification time for image sequences, in seconds since 1970-01-01 00:00:00 UTC (the Unix epoch). (Default: 0, use the current time)\n");
-    printf("    -k,--keyframe INTERVAL            : Maximum keyframe interval for image sequences (any set of INTERVAL consecutive frames will have at least one keyframe). Set to 0 to disable (default).\n");
-    printf("    --ignore-exif                     : If the input file contains embedded Exif metadata, ignore it (no-op if absent)\n");
-    printf("    --ignore-xmp                      : If the input file contains embedded XMP metadata, ignore it (no-op if absent)\n");
-    printf("    --ignore-profile,--ignore-icc     : If the input file contains an embedded color profile, ignore it (no-op if absent)\n");
+    fprintf(stderr,"    -g,--grid MxN                     : Encode a single-image grid AVIF with M cols & N rows. Either supply MxN identical W/H/D images, or a single\n");
+    fprintf(stderr,"                                        image that can be evenly split into the MxN grid and follow AVIF grid image restrictions. The grid will adopt\n");
+    fprintf(stderr,"                                        the color profile of the first image supplied.\n");
+    fprintf(stderr,"    -c,--codec C                      : Codec to use (choose from versions list below)\n");
+    fprintf(stderr,"    --exif FILENAME                   : Provide an Exif metadata payload to be associated with the primary item (implies --ignore-exif)\n");
+    fprintf(stderr,"    --xmp FILENAME                    : Provide an XMP metadata payload to be associated with the primary item (implies --ignore-xmp)\n");
+    fprintf(stderr,"    --icc FILENAME                    : Provide an ICC profile payload to be associated with the primary item (implies --ignore-icc)\n");
+    fprintf(stderr,"    --timescale,--fps V               : Timescale for image sequences. If all frames are 1 timescale in length, this is equivalent to frames per second. (Default: 30)\n");
+    fprintf(stderr,"                                        If neither duration nor timescale are set, avifenc will attempt to use the framerate stored in a y4m header, if present.\n");
+    fprintf(stderr,"    --creation-time                   : Creation time for image sequences, in seconds since 1970-01-01 00:00:00 UTC (the Unix epoch). (Default: 0, use the modification time)\n");
+    fprintf(stderr,"    --modification-time               : Modification time for image sequences, in seconds since 1970-01-01 00:00:00 UTC (the Unix epoch). (Default: 0, use the current time)\n");
+    fprintf(stderr,"    -k,--keyframe INTERVAL            : Maximum keyframe interval for image sequences (any set of INTERVAL consecutive frames will have at least one keyframe). Set to 0 to disable (default).\n");
+    fprintf(stderr,"    --ignore-exif                     : If the input file contains embedded Exif metadata, ignore it (no-op if absent)\n");
+    fprintf(stderr,"    --ignore-xmp                      : If the input file contains embedded XMP metadata, ignore it (no-op if absent)\n");
+    fprintf(stderr,"    --ignore-profile,--ignore-icc     : If the input file contains an embedded color profile, ignore it (no-op if absent)\n");
 #if defined(AVIF_ENABLE_JPEG_GAIN_MAP_CONVERSION)
-    printf("    --ignore-gain-map                 : If the input file contains an embedded gain map, ignore it (no-op if absent)\n");
-    printf("    --qgain-map Q                     : Quality for the gain map in %d..%d where %d is lossless\n",
+    fprintf(stderr,"    --ignore-gain-map                 : If the input file contains an embedded gain map, ignore it (no-op if absent)\n");
+    fprintf(stderr,"    --qgain-map Q                     : Quality for the gain map in %d..%d where %d is lossless\n",
            AVIF_QUALITY_WORST,
            AVIF_QUALITY_BEST,
            AVIF_QUALITY_LOSSLESS);
 #endif
-    printf("    --pasp H,V                        : Add pasp property (aspect ratio). H=horizontal spacing, V=vertical spacing\n");
-    printf("    --crop CROPX,CROPY,CROPW,CROPH    : Add clap property (clean aperture), but calculated from a crop rectangle\n");
-    printf("    --clap WN,WD,HN,HD,HON,HOD,VON,VOD: Add clap property (clean aperture). Width, Height, HOffset, VOffset (in numerator/denominator pairs)\n");
-    printf("    --irot ANGLE                      : Add irot property (rotation), in 0..3. Makes (90 * ANGLE) degree rotation anti-clockwise\n");
-    printf("    --imir AXIS                       : Add imir property (mirroring). 0=top-to-bottom, 1=left-to-right\n");
-    printf("    --clli MaxCLL,MaxPALL             : Add clli property (content light level information).\n");
-    printf("    --repetition-count N              : Number of times an animated image sequence will be repeated, or 'infinite' for infinite repetitions. (Default: infinite)\n");
-    printf("    --                                : Signal the end of options. Everything after this is interpreted as file names.\n");
-    printf("\n");
-    printf("Updatable options:\n");
-    printf("  The following options can optionally have a :u (or :update) suffix like `-q:u Q`, to apply only to input files appearing after the option:\n");
-    printf("    -q,--qcolor Q                     : Quality for color in %d..%d where %d is lossless\n",
+    fprintf(stderr,"    --pasp H,V                        : Add pasp property (aspect ratio). H=horizontal spacing, V=vertical spacing\n");
+    fprintf(stderr,"    --crop CROPX,CROPY,CROPW,CROPH    : Add clap property (clean aperture), but calculated from a crop rectangle\n");
+    fprintf(stderr,"    --clap WN,WD,HN,HD,HON,HOD,VON,VOD: Add clap property (clean aperture). Width, Height, HOffset, VOffset (in numerator/denominator pairs)\n");
+    fprintf(stderr,"    --irot ANGLE                      : Add irot property (rotation), in 0..3. Makes (90 * ANGLE) degree rotation anti-clockwise\n");
+    fprintf(stderr,"    --imir AXIS                       : Add imir property (mirroring). 0=top-to-bottom, 1=left-to-right\n");
+    fprintf(stderr,"    --clli MaxCLL,MaxPALL             : Add clli property (content light level information).\n");
+    fprintf(stderr,"    --repetition-count N              : Number of times an animated image sequence will be repeated, or 'infinite' for infinite repetitions. (Default: infinite)\n");
+    fprintf(stderr,"    --                                : Signal the end of options. Everything after this is interpreted as file names.\n");
+    fprintf(stderr,"\n");
+    fprintf(stderr,"Updatable options:\n");
+    fprintf(stderr,"  The following options can optionally have a :u (or :update) suffix like `-q:u Q`, to apply only to input files appearing after the option:\n");
+    fprintf(stderr,"    -q,--qcolor Q                     : Quality for color in %d..%d where %d is lossless\n",
            AVIF_QUALITY_WORST,
            AVIF_QUALITY_BEST,
            AVIF_QUALITY_LOSSLESS);
-    printf("    --qalpha Q                        : Quality for alpha in %d..%d where %d is lossless\n",
+    fprintf(stderr,"    --qalpha Q                        : Quality for alpha in %d..%d where %d is lossless\n",
            AVIF_QUALITY_WORST,
            AVIF_QUALITY_BEST,
            AVIF_QUALITY_LOSSLESS);
 #if defined(AVIF_ENABLE_JPEG_GAIN_MAP_CONVERSION)
-    printf("    --qgain-map Q                     : Quality for the gain map in %d..%d where %d is lossless\n",
+    fprintf(stderr,"    --qgain-map Q                     : Quality for the gain map in %d..%d where %d is lossless\n",
            AVIF_QUALITY_WORST,
            AVIF_QUALITY_BEST,
            AVIF_QUALITY_LOSSLESS);
 #endif
-    printf("    --tilerowslog2 R                  : log2 of number of tile rows in 0..6. (Default: 0)\n");
-    printf("                                        If specified, switch to manual tiling.\n");
-    printf("    --tilecolslog2 C                  : log2 of number of tile columns 0..6. (Default: 0)\n");
-    printf("                                        If specified, switch to manual tiling.\n");
-    printf("    --autotiling                      : Set --tilerowslog2 and --tilecolslog2 automatically\n");
-    printf("                                        If specified, switch to automatic tiling.\n");
-    printf("                                        avifenc starts in automatic tiling mode.\n");
-    printf("    --min QP                          : Deprecated, use -q 0..100 instead\n");
-    printf("    --max QP                          : Deprecated, use -q 0..100 instead\n");
-    printf("    --minalpha QP                     : Deprecated, use --qalpha 0..100 instead\n");
-    printf("    --maxalpha QP                     : Deprecated, use --qalpha 0..100 instead\n");
-    printf("    --scaling-mode N[/D]              : Set frame (layer) scaling mode as given fraction. If omitted, the denominator defaults to 1. (Default: 1/1)\n");
-    printf("    --duration D                      : Frame durations (in timescales) (default: 1). This option always applies to following inputs with or without the `:u` suffix.\n");
-    printf("    -a,--advanced KEY[=VALUE]         : Pass an advanced, codec-specific key/value string pair directly to the codec. avifenc will warn on any not used by the codec.\n");
-    printf("\n");
+    fprintf(stderr,"    --tilerowslog2 R                  : log2 of number of tile rows in 0..6. (Default: 0)\n");
+    fprintf(stderr,"                                        If specified, switch to manual tiling.\n");
+    fprintf(stderr,"    --tilecolslog2 C                  : log2 of number of tile columns 0..6. (Default: 0)\n");
+    fprintf(stderr,"                                        If specified, switch to manual tiling.\n");
+    fprintf(stderr,"    --autotiling                      : Set --tilerowslog2 and --tilecolslog2 automatically\n");
+    fprintf(stderr,"                                        If specified, switch to automatic tiling.\n");
+    fprintf(stderr,"                                        avifenc starts in automatic tiling mode.\n");
+    fprintf(stderr,"    --min QP                          : Deprecated, use -q 0..100 instead\n");
+    fprintf(stderr,"    --max QP                          : Deprecated, use -q 0..100 instead\n");
+    fprintf(stderr,"    --minalpha QP                     : Deprecated, use --qalpha 0..100 instead\n");
+    fprintf(stderr,"    --maxalpha QP                     : Deprecated, use --qalpha 0..100 instead\n");
+    fprintf(stderr,"    --scaling-mode N[/D]              : Set frame (layer) scaling mode as given fraction. If omitted, the denominator defaults to 1. (Default: 1/1)\n");
+    fprintf(stderr,"    --duration D                      : Frame durations (in timescales) (default: 1). This option always applies to following inputs with or without the `:u` suffix.\n");
+    fprintf(stderr,"    -a,--advanced KEY[=VALUE]         : Pass an advanced, codec-specific key/value string pair directly to the codec. avifenc will warn on any not used by the codec.\n");
+    fprintf(stderr,"\n");
     if (avifCodecName(AVIF_CODEC_CHOICE_AOM, 0)) {
-        printf("aom-specific advanced options:\n");
-        printf("    1. <key>=<value> applies to both the color (YUV) planes and the alpha plane (if present).\n");
-        printf("    2. color:<key>=<value> or c:<key>=<value> applies only to the color (YUV) planes.\n");
-        printf("    3. alpha:<key>=<value> or a:<key>=<value> applies only to the alpha plane (if present).\n");
-        printf("       Since the alpha plane is encoded as a monochrome image, the options that refer to the chroma planes,\n");
-        printf("       such as enable-chroma-deltaq=B, should not be used with the alpha plane. In addition, the film grain\n");
-        printf("       options are unlikely to make sense for the alpha plane.\n");
-        printf("\n");
-        printf("    When used with libaom 3.0.0 or later, any key-value pairs supported by the aom_codec_set_option() function\n");
-        printf("    can be used. When used with libaom 2.0.x or older, the following key-value pairs can be used:\n");
-        printf("\n");
-        printf("    aq-mode=M                         : Adaptive quantization mode. 0=off (default), 1=variance, 2=complexity, 3=cyclic refresh\n");
-        printf("    cq-level=Q                        : Constant/Constrained Quality level in 0..63, end-usage must be set to cq or q\n");
-        printf("    enable-chroma-deltaq=B            : Enable delta quantization in chroma planes. 0=disable (default), 1=enable\n");
-        printf("    end-usage=MODE                    : Rate control mode, one of 'vbr', 'cbr', 'cq', or 'q'\n");
-        printf("    sharpness=S                       : Bias towards block sharpness in rate-distortion optimization of transform coefficients in 0..7. (Default: 0)\n");
-        printf("    tune=METRIC                       : Tune the encoder for distortion metric, one of 'psnr', 'ssim' or 'iq'.\n");
-        printf("                                        (Default for color: still non-RGB images (libaom v3.13.0+): iq, otherwise: ssim; default for alpha: psnr)\n");
-        printf("    film-grain-test=TEST              : Film grain test vectors in 0..16. 0=none (default), 1=test1, 2=test2, ... 16=test16\n");
-        printf("    film-grain-table=FILENAME         : Path to file containing film grain parameters\n");
-        printf("\n");
+        fprintf(stderr,"aom-specific advanced options:\n");
+        fprintf(stderr,"    1. <key>=<value> applies to both the color (YUV) planes and the alpha plane (if present).\n");
+        fprintf(stderr,"    2. color:<key>=<value> or c:<key>=<value> applies only to the color (YUV) planes.\n");
+        fprintf(stderr,"    3. alpha:<key>=<value> or a:<key>=<value> applies only to the alpha plane (if present).\n");
+        fprintf(stderr,"       Since the alpha plane is encoded as a monochrome image, the options that refer to the chroma planes,\n");
+        fprintf(stderr,"       such as enable-chroma-deltaq=B, should not be used with the alpha plane. In addition, the film grain\n");
+        fprintf(stderr,"       options are unlikely to make sense for the alpha plane.\n");
+        fprintf(stderr,"\n");
+        fprintf(stderr,"    When used with libaom 3.0.0 or later, any key-value pairs supported by the aom_codec_set_option() function\n");
+        fprintf(stderr,"    can be used. When used with libaom 2.0.x or older, the following key-value pairs can be used:\n");
+        fprintf(stderr,"\n");
+        fprintf(stderr,"    aq-mode=M                         : Adaptive quantization mode. 0=off (default), 1=variance, 2=complexity, 3=cyclic refresh\n");
+        fprintf(stderr,"    cq-level=Q                        : Constant/Constrained Quality level in 0..63, end-usage must be set to cq or q\n");
+        fprintf(stderr,"    enable-chroma-deltaq=B            : Enable delta quantization in chroma planes. 0=disable (default), 1=enable\n");
+        fprintf(stderr,"    end-usage=MODE                    : Rate control mode, one of 'vbr', 'cbr', 'cq', or 'q'\n");
+        fprintf(stderr,"    sharpness=S                       : Bias towards block sharpness in rate-distortion optimization of transform coefficients in 0..7. (Default: 0)\n");
+        fprintf(stderr,"    tune=METRIC                       : Tune the encoder for distortion metric, one of 'psnr', 'ssim' or 'iq'.\n");
+        fprintf(stderr,"                                        (Default for color: still non-RGB images (libaom v3.13.0+): iq, otherwise: ssim; default for alpha: psnr)\n");
+        fprintf(stderr,"    film-grain-test=TEST              : Film grain test vectors in 0..16. 0=none (default), 1=test1, 2=test2, ... 16=test16\n");
+        fprintf(stderr,"    film-grain-table=FILENAME         : Path to file containing film grain parameters\n");
+        fprintf(stderr,"\n");
     }
     avifPrintVersions();
 }
@@ -940,7 +940,7 @@ static avifBool avifEncodeRestOfImageSequence(avifEncoder * encoder,
         char manualTilingStr[128];
         snprintf(manualTilingStr, sizeof(manualTilingStr), "tileRowsLog2 [%d], tileColsLog2 [%d]", encoder->tileRowsLog2, encoder->tileColsLog2);
 
-        printf(" * Encoding frame %d [%" PRIu64 "/%" PRIu64 " ts] color quality [%d (%s)], alpha quality [%d (%s)], %s: %s\n",
+        fprintf(stderr," * Encoding frame %d [%" PRIu64 "/%" PRIu64 " ts] color quality [%d (%s)], alpha quality [%d (%s)], %s: %s\n",
                imageIndex,
                nextDurationInTimescales,
                settings->outputTiming.timescale,
@@ -1048,7 +1048,7 @@ static avifBool avifEncodeRestOfLayeredImage(avifEncoder * encoder,
             encodingImage = nextImage;
         }
 
-        printf(" * Encoding layer %d: color quality [%d (%s)], alpha quality [%d (%s)]\n",
+        fprintf(stderr," * Encoding layer %d: color quality [%d (%s)], alpha quality [%d (%s)]\n",
                layerIndex,
                encoder->quality,
                qualityString(encoder->quality),
@@ -1144,7 +1144,7 @@ static avifBool avifEncodeImagesFixedQuality(const avifSettings * settings,
     char manualTilingStr[128];
     snprintf(manualTilingStr, sizeof(manualTilingStr), "tileRowsLog2 [%d], tileColsLog2 [%d]", encoder->tileRowsLog2, encoder->tileColsLog2);
     // Note: this is mirrored in apps/avifgainmaputil/imageio.cc, changes here may be mirrored there if relevant.
-    printf("Encoding with initial settings: codec '%s' speed [%s], color quality [%d (%s)], alpha quality [%d (%s)]%s, %s, %d worker thread(s), please wait...\n",
+    fprintf(stderr,"Encoding with initial settings: codec '%s' speed [%s], color quality [%d (%s)], alpha quality [%d (%s)]%s, %s, %d worker thread(s), please wait...\n",
            codecName ? codecName : "none",
            speedStr,
            encoder->quality,
@@ -1165,7 +1165,7 @@ static avifBool avifEncodeImagesFixedQuality(const avifSettings * settings,
     }
 
     if (settings->layers > 1) {
-        printf(" * Encoding layer %d: color quality [%d (%s)], alpha quality [%d (%s)]\n",
+        fprintf(stderr," * Encoding layer %d: color quality [%d (%s)], alpha quality [%d (%s)]\n",
                0,
                encoder->quality,
                qualityString(encoder->quality),
@@ -1197,7 +1197,7 @@ static avifBool avifEncodeImagesFixedQuality(const avifSettings * settings,
                      encoder->tileRowsLog2,
                      encoder->tileColsLog2);
 
-            printf(" * Encoding frame %d [%" PRIu64 "/%" PRIu64 " ts] color quality [%d (%s)], alpha quality [%d (%s)], %s: %s\n",
+            fprintf(stderr," * Encoding frame %d [%" PRIu64 "/%" PRIu64 " ts] color quality [%d (%s)], alpha quality [%d (%s)], %s: %s\n",
                    0,
                    firstDurationInTimescales,
                    settings->outputTiming.timescale,
@@ -1275,7 +1275,7 @@ static avifBool avifEncodeImages(avifSettings * settings,
         return AVIF_FALSE;
     }
 
-    printf("Starting a binary search to find the %s%s generating the encoded image size closest to %d bytes, please wait...\n",
+    fprintf(stderr,"Starting a binary search to find the %s%s generating the encoded image size closest to %d bytes, please wait...\n",
            settings->qualityAlphaIsConstrained ? "color quality"
                                                : (settings->qualityIsConstrained ? "alpha quality" : "color and alpha qualities"),
            (hasGainMap && !settings->qualityGainMapIsConstrained) ? " and gain map quality" : "",
@@ -1306,7 +1306,7 @@ static avifBool avifEncodeImages(avifSettings * settings,
             avifRWDataFree(&closestEncoded);
             return AVIF_FALSE;
         }
-        printf("Encoded image of size %" AVIF_FMT_ZU " bytes.\n", encoded->size);
+        fprintf(stderr,"Encoded image of size %" AVIF_FMT_ZU " bytes.\n", encoded->size);
 
         if (encoded->size == targetSize) {
             return AVIF_TRUE;
@@ -1341,17 +1341,17 @@ static avifBool avifEncodeImages(avifSettings * settings,
     avifRWDataFree(encoded);
     *encoded = closestEncoded;
     *byteSizes = closestByteSizes;
-    printf("Kept the encoded image of size %" AVIF_FMT_ZU " bytes generated with ", encoded->size);
+    fprintf(stderr,"Kept the encoded image of size %" AVIF_FMT_ZU " bytes generated with ", encoded->size);
     if (!settings->qualityIsConstrained) {
-        printf("color quality %d", settings->overrideQuality);
+        fprintf(stderr,"color quality %d", settings->overrideQuality);
     }
     if (!settings->qualityAlphaIsConstrained) {
         if (!settings->qualityIsConstrained) {
-            printf(" and ");
+            fprintf(stderr," and ");
         }
-        printf("alpha quality %d", settings->overrideQualityAlpha);
+        fprintf(stderr,"alpha quality %d", settings->overrideQualityAlpha);
     }
-    printf(".\n");
+    fprintf(stderr,".\n");
     return AVIF_TRUE;
 }
 
@@ -1530,7 +1530,12 @@ int main(int argc, char * argv[])
             }
         } else if (!strcmp(arg, "-o") || !strcmp(arg, "--output")) {
             NEXTARG();
-            outputFilename = arg;
+            if(!strcmp(arg,"-")){
+                outputToStdout=AVIF_TRUE;
+            }
+            else{
+                outputFilename = arg;
+            }
 #if defined(AVIF_ENABLE_EXPERIMENTAL_MINI)
         } else if (!strcmp(arg, "--mini")) {
             settings.headerFormat |= AVIF_HEADER_MINI;
@@ -1979,7 +1984,7 @@ int main(int argc, char * argv[])
             premultiplyAlpha = AVIF_TRUE;
         } else if (!strcmp(arg, "--sharpyuv")) {
             settings.chromaDownsampling = AVIF_CHROMA_DOWNSAMPLING_SHARP_YUV;
-        } else if (arg[0] == '-') {
+        } else if (arg[0] == '-'&&outputToStdout) {
             fprintf(stderr, "ERROR: unrecognized option %s\n\n", arg);
             syntaxLong();
             goto cleanup;
@@ -2063,7 +2068,13 @@ int main(int argc, char * argv[])
 
     if (!outputFilename && input.filesCount > 1 && input.files[input.filesCount - 1].filename != AVIF_FILENAME_STDIN) {
         --input.filesCount;
-        outputFilename = input.files[input.filesCount].filename;
+        if(!strcmp(input.files[input.filesCount].filename,"-")){
+                outputToStdout=AVIF_TRUE;
+            }
+            else{
+                outputFilename = input.files[input.filesCount].filename;
+        }
+        
         if (memcmp(&input.files[input.filesCount].settings, &emptySettingsReference, sizeof(avifInputFileSettings)) != 0) {
             fprintf(stderr, "WARNING: Trailing options with update suffix has no effect. Place them before the input you intend to apply to.\n");
         }
@@ -2079,7 +2090,7 @@ int main(int argc, char * argv[])
         goto cleanup;
     }
 
-    if (!outputFilename) {
+    if (!outputFilename&&!outputToStdout) {
         fprintf(stderr, "ERROR: no output specified\n");
         goto cleanup;
     }
@@ -2296,7 +2307,7 @@ int main(int argc, char * argv[])
 
         if (settings.cicpExplicitlySet) {
             // Only warn if someone explicitly asked for identity.
-            printf("WARNING: matrixCoefficients may not be set to identity (0) when %s. Resetting MC to defaults (%d).\n",
+            fprintf(stderr,"WARNING: matrixCoefficients may not be set to identity (0) when %s. Resetting MC to defaults (%d).\n",
                    (input.requestedFormat == AVIF_PIXEL_FORMAT_YUV400) ? "encoding 4:0:0" : "subsampling",
                    image->matrixCoefficients);
         }
@@ -2336,7 +2347,7 @@ int main(int argc, char * argv[])
 
         if (settings.cicpExplicitlySet) {
             // Only warn if someone explicitly asked for identity.
-            printf("WARNING: matrixCoefficients may not be set to identity (0) when encoding 4:0:0. Resetting MC to defaults (%d).\n",
+            fprintf(stderr,"WARNING: matrixCoefficients may not be set to identity (0) when encoding 4:0:0. Resetting MC to defaults (%d).\n",
                    image->matrixCoefficients);
         }
     }
@@ -2345,7 +2356,7 @@ int main(int argc, char * argv[])
         goto cleanup;
     }
 
-    printf("Successfully loaded: %s\n", avifPrettyFilename(firstFile->filename));
+    fprintf(stderr,"Successfully loaded: %s\n", avifPrettyFilename(firstFile->filename));
 
     // Prepare image timings
     if ((settings.outputTiming.duration == 0) && (settings.outputTiming.timescale == 0) && (firstSourceTiming.duration > 0) &&
@@ -2456,7 +2467,7 @@ int main(int argc, char * argv[])
     // Guess if the enduser is asking for lossless and enable it so that warnings can be emitted
     if (!lossless && usingLosslessColor && (!hasAlpha || usingLosslessAlpha)) {
         // The enduser is probably expecting lossless. Turn it on and emit warnings
-        printf("Quality set to %d, assuming --lossless to enable warnings on potential lossless issues.\n", AVIF_QUALITY_LOSSLESS);
+        fprintf(stderr,"Quality set to %d, assuming --lossless to enable warnings on potential lossless issues.\n", AVIF_QUALITY_LOSSLESS);
         lossless = AVIF_TRUE;
     }
 
@@ -2512,7 +2523,7 @@ int main(int argc, char * argv[])
         // Grid image!
 
         gridCellCount = settings.gridDims[0] * settings.gridDims[1];
-        printf("Preparing to encode a %ux%u grid (%u cells)...\n", settings.gridDims[0], settings.gridDims[1], gridCellCount);
+        fprintf(stderr,"Preparing to encode a %ux%u grid (%u cells)...\n", settings.gridDims[0], settings.gridDims[1], gridCellCount);
 
         gridCells = calloc(gridCellCount, sizeof(avifImage *));
         if (gridCells == NULL) {
@@ -2525,7 +2536,7 @@ int main(int argc, char * argv[])
         const avifInputFile * nextFile;
         while ((nextFile = avifInputGetFile(&input, imageIndex)) != NULL) {
             if (imageIndex == 1) {
-                printf("Loading additional cells for grid image (%u cells)...\n", gridCellCount);
+                fprintf(stderr,"Loading additional cells for grid image (%u cells)...\n", gridCellCount);
             }
             if (imageIndex >= (int)gridCellCount) {
                 // We have enough, warn and continue
@@ -2579,7 +2590,7 @@ int main(int argc, char * argv[])
         }
 
         if (imageIndex == 1) {
-            printf("Single image input for a grid image. Attempting to split into %u cells...\n", gridCellCount);
+            fprintf(stderr,"Single image input for a grid image. Attempting to split into %u cells...\n", gridCellCount);
             gridSplitImage = image;
             gridCells[0] = NULL;
 
@@ -2596,7 +2607,7 @@ int main(int argc, char * argv[])
     if (lossless) {
         lossyHint = " (Lossless)";
     }
-    printf("AVIF to be written:%s\n", lossyHint);
+    fprintf(stderr,"AVIF to be written:%s\n", lossyHint);
     const avifImage * avif = gridCells ? gridCells[0] : image;
     avifImageDump(avif,
                   settings.gridDims[0],
@@ -2608,17 +2619,17 @@ int main(int argc, char * argv[])
         goto cleanup;
     }
 
-    printf("Encoded successfully.\n");
-    printf(" * Color total size: %" AVIF_FMT_ZU " bytes\n", byteSizes.colorSizeBytes);
-    printf(" * Alpha total size: %" AVIF_FMT_ZU " bytes\n", byteSizes.alphaSizeBytes);
+    fprintf(stderr,"Encoded successfully.\n");
+    fprintf(stderr," * Color total size: %" AVIF_FMT_ZU " bytes\n", byteSizes.colorSizeBytes);
+    fprintf(stderr," * Alpha total size: %" AVIF_FMT_ZU " bytes\n", byteSizes.alphaSizeBytes);
     if (byteSizes.gainMapSizeBytes > 0) {
-        printf(" * Gain Map AV1 total size: %" AVIF_FMT_ZU " bytes\n", byteSizes.gainMapSizeBytes);
+        fprintf(stderr," * Gain Map AV1 total size: %" AVIF_FMT_ZU " bytes\n", byteSizes.gainMapSizeBytes);
     }
     if (isImageSequence) {
         if (settings.repetitionCount == AVIF_REPETITION_COUNT_INFINITE) {
-            printf(" * Repetition Count: Infinite\n");
+            fprintf(stderr," * Repetition Count: Infinite\n");
         } else {
-            printf(" * Repetition Count: %d\n", settings.repetitionCount);
+            fprintf(stderr," * Repetition Count: %d\n", settings.repetitionCount);
         }
     }
     if (noOverwrite && fileExists(outputFilename)) {
@@ -2626,18 +2637,35 @@ int main(int argc, char * argv[])
         fprintf(stderr, "ERROR: output file %s already exists and --no-overwrite was specified\n", outputFilename);
         goto cleanup;
     }
-    FILE * f = fopen(outputFilename, "wb");
-    if (!f) {
-        fprintf(stderr, "ERROR: Failed to open file for write: %s\n", outputFilename);
-        goto cleanup;
-    }
-    if (fwrite(raw.data, 1, raw.size, f) != raw.size) {
-        fprintf(stderr, "Failed to write %" AVIF_FMT_ZU " bytes: %s\n", raw.size, outputFilename);
-        goto cleanup;
+   
+    FILE * f=NULL;
+    if (outputToStdout) {
+#ifdef _WIN32
+        _setmode(_fileno(stdout), _O_BINARY);
+#endif
+        f =stdout;
     } else {
-        printf("Wrote AVIF: %s\n", outputFilename);
+        f = fopen(outputFilename, "wb");
+        if (!f) {
+            fprintf(stderr, "ERROR: Failed to open file for write: %s\n", outputFilename);
+            goto cleanup;
+        }
     }
-    fclose(f);
+
+    if (fwrite(raw.data, 1, raw.size, f) != raw.size) {
+        fprintf(stderr, "Failed to write %" AVIF_FMT_ZU " bytes\n", raw.size);
+        goto cleanup;
+    }
+    else if(outputToStdout){
+        fprintf(stderr,"Wrote AVIF: stdout\n");
+    }
+    else{
+        fprintf(stderr,"Wrote AVIF: %s\n", outputFilename);
+        fclose(f);
+    }
+    
+   
+
     returnCode = 0;
 
 cleanup:

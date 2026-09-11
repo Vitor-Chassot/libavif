@@ -1,9 +1,9 @@
 // Copyright 2020 Joe Drago. All rights reserved.
 // SPDX-License-Identifier: BSD-2-Clause
 
+#include "avifutil.h"
 #include "avifpng.h"
 #include "avifexif.h"
-#include "avifutil.h"
 #include "iccmaker.h"
 
 #include "png.h"
@@ -877,7 +877,7 @@ avifBool avifPNGWrite(const char * outputFilename, const avifImage * avif, uint3
     png_write_end(png, NULL);
 
     writeResult = AVIF_TRUE;
-    printf("Wrote PNG: %s\n", outputFilename);
+    fprintf(stderr,"Wrote PNG: %s\n", outputFilename);
 cleanup:
     if (f) {
         fclose(f);

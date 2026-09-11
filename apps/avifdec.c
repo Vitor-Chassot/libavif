@@ -26,33 +26,33 @@
 
 static void syntax(void)
 {
-    printf("Syntax: avifdec [options] input.avif output.[jpg|jpeg|png|y4m]\n");
-    printf("        avifdec --info    input.avif\n");
-    printf("Options:\n");
-    printf("    -h,--help         : Show syntax help\n");
-    printf("    -V,--version      : Show the version number\n");
-    printf("    -j,--jobs J       : Number of jobs (worker threads), or 'all' to potentially use as many cores as possible. (Default: all)\n");
-    printf("    -c,--codec C      : Codec to use (choose from versions list below)\n");
-    printf("    -d,--depth D      : Output depth, either 8 or 16. (PNG only; For y4m, depth is retained, and JPEG is always 8bpc)\n");
-    printf("    --sato            : Enable Sample Transforms decoding (e.g. 16-bit AVIF)\n");
-    printf("    -q,--quality Q    : Output quality in 0..100. (JPEG only, default: %d)\n", DEFAULT_JPEG_QUALITY);
-    printf("    --png-compress L  : PNG compression level in 0..9 (PNG only; 0=none, 9=max). Defaults to libpng's builtin default\n");
-    printf("    -u,--upsampling U : Chroma upsampling (for 420/422). One of 'automatic' (default), 'fastest', 'best', 'nearest', or 'bilinear'\n");
-    printf("    -r,--raw-color    : Output raw RGB values instead of multiplying by alpha when saving to opaque formats\n");
-    printf("                        (JPEG only; not applicable to y4m)\n");
-    printf("    --index I         : When decoding an image sequence or progressive image, specify which frame index to decode, where the first frame has index 0, or 'all' to decode all frames. (Default: 0)\n");
-    printf("    --progressive     : Enable progressive AVIF processing. If a progressive image is encountered and --progressive is passed,\n");
-    printf("                        avifdec will use --index to choose which layer to decode (in progressive order).\n");
-    printf("    --no-strict       : Disable strict decoding, which disables strict validation checks and errors\n");
-    printf("    -i,--info         : Decode all frames and display all image information instead of saving to disk\n");
-    printf("    --icc FILENAME    : Provide an ICC profile payload (implies --ignore-icc)\n");
-    printf("    --ignore-icc      : If the input file contains an embedded ICC profile, ignore it (no-op if absent)\n");
-    printf("    --size-limit C    : Maximum image size (in total pixels) that should be tolerated. (Default: %u)\n",
+    fprintf(stderr,"Syntax: avifdec [options] input.avif output.[jpg|jpeg|png|y4m]\n");
+    fprintf(stderr,"        avifdec --info    input.avif\n");
+    fprintf(stderr,"Options:\n");
+    fprintf(stderr,"    -h,--help         : Show syntax help\n");
+    fprintf(stderr,"    -V,--version      : Show the version number\n");
+    fprintf(stderr,"    -j,--jobs J       : Number of jobs (worker threads), or 'all' to potentially use as many cores as possible. (Default: all)\n");
+    fprintf(stderr,"    -c,--codec C      : Codec to use (choose from versions list below)\n");
+    fprintf(stderr,"    -d,--depth D      : Output depth, either 8 or 16. (PNG only; For y4m, depth is retained, and JPEG is always 8bpc)\n");
+    fprintf(stderr,"    --sato            : Enable Sample Transforms decoding (e.g. 16-bit AVIF)\n");
+    fprintf(stderr,"    -q,--quality Q    : Output quality in 0..100. (JPEG only, default: %d)\n", DEFAULT_JPEG_QUALITY);
+    fprintf(stderr,"    --png-compress L  : PNG compression level in 0..9 (PNG only; 0=none, 9=max). Defaults to libpng's builtin default\n");
+    fprintf(stderr,"    -u,--upsampling U : Chroma upsampling (for 420/422). One of 'automatic' (default), 'fastest', 'best', 'nearest', or 'bilinear'\n");
+    fprintf(stderr,"    -r,--raw-color    : Output raw RGB values instead of multiplying by alpha when saving to opaque formats\n");
+    fprintf(stderr,"                        (JPEG only; not applicable to y4m)\n");
+    fprintf(stderr,"    --index I         : When decoding an image sequence or progressive image, specify which frame index to decode, where the first frame has index 0, or 'all' to decode all frames. (Default: 0)\n");
+    fprintf(stderr,"    --progressive     : Enable progressive AVIF processing. If a progressive image is encountered and --progressive is passed,\n");
+    fprintf(stderr,"                        avifdec will use --index to choose which layer to decode (in progressive order).\n");
+    fprintf(stderr,"    --no-strict       : Disable strict decoding, which disables strict validation checks and errors\n");
+    fprintf(stderr,"    -i,--info         : Decode all frames and display all image information instead of saving to disk\n");
+    fprintf(stderr,"    --icc FILENAME    : Provide an ICC profile payload (implies --ignore-icc)\n");
+    fprintf(stderr,"    --ignore-icc      : If the input file contains an embedded ICC profile, ignore it (no-op if absent)\n");
+    fprintf(stderr,"    --size-limit C    : Maximum image size (in total pixels) that should be tolerated. (Default: %u)\n",
            AVIF_DEFAULT_IMAGE_SIZE_LIMIT);
-    printf("  --dimension-limit C : Maximum image dimension (width or height) that should be tolerated.\n");
-    printf("                        Set to 0 to ignore. (Default: %u)\n", AVIF_DEFAULT_IMAGE_DIMENSION_LIMIT);
-    printf("    --                : Signal the end of options. Everything after this is interpreted as file names.\n");
-    printf("\n");
+    fprintf(stderr,"  --dimension-limit C : Maximum image dimension (width or height) that should be tolerated.\n");
+    fprintf(stderr,"                        Set to 0 to ignore. (Default: %u)\n", AVIF_DEFAULT_IMAGE_DIMENSION_LIMIT);
+    fprintf(stderr,"    --                : Signal the end of options. Everything after this is interpreted as file names.\n");
+    fprintf(stderr,"\n");
     avifPrintVersions();
 }
 
@@ -297,7 +297,7 @@ int main(int argc, char * argv[])
         }
     }
 
-    printf("Decoding with codec '%s' (%d worker thread%s), please wait...\n",
+    fprintf(stderr,"Decoding with codec '%s' (%d worker thread%s), please wait...\n",
            avifCodecName(codecChoice, AVIF_CODEC_FLAG_CAN_DECODE),
            jobs,
            (jobs == 1) ? "" : "s");
@@ -333,22 +333,22 @@ int main(int argc, char * argv[])
         goto cleanup;
     }
 
-    printf("Image decoded: %s\n", inputFilename);
+    fprintf(stderr,"Image decoded: %s\n", inputFilename);
     avifContainerDump(decoder);
 
     const avifBool isSequence = decoder->imageCount > 1;
-    printf(" * %" PRIu64 " timescales per second, %2.2f seconds (%" PRIu64 " timescales), %d frame%s\n",
+    fprintf(stderr," * %" PRIu64 " timescales per second, %2.2f seconds (%" PRIu64 " timescales), %d frame%s\n",
            decoder->timescale,
            decoder->duration,
            decoder->durationInTimescales,
            decoder->imageCount,
            (decoder->imageCount == 1) ? "" : "s");
     if (isSequence) {
-        printf(" * %s Frames: (%u expected frames)\n",
+        fprintf(stderr," * %s Frames: (%u expected frames)\n",
                (decoder->progressiveState != AVIF_PROGRESSIVE_STATE_UNAVAILABLE) ? "Progressive Image" : "Image Sequence",
                decoder->imageCount);
     } else {
-        printf(" * Frame:\n");
+        fprintf(stderr," * Frame:\n");
     }
 
     if (iccOverrideFilename) {
@@ -371,7 +371,7 @@ int main(int argc, char * argv[])
             break;
         }
 
-        printf("   * Decoded frame [%d] [pts %2.2f (%" PRIu64 " timescales)] [duration %2.2f (%" PRIu64 " timescales)] [%ux%u]\n",
+        fprintf(stderr,"   * Decoded frame [%d] [pts %2.2f (%" PRIu64 " timescales)] [duration %2.2f (%" PRIu64 " timescales)] [%ux%u]\n",
                currIndex,
                decoder->imageTiming.pts,
                decoder->imageTiming.ptsInTimescales,
@@ -401,14 +401,14 @@ int main(int argc, char * argv[])
         }
 
         if (ignoreICC && (decoder->image->icc.size > 0)) {
-            printf("[--ignore-icc] Discarding ICC profile.\n");
+            fprintf(stderr,"[--ignore-icc] Discarding ICC profile.\n");
             // This cannot fail.
             result = avifImageSetProfileICC(decoder->image, NULL, 0);
             assert(result == AVIF_RESULT_OK);
         }
 
         if (iccOverrideFilename) {
-            printf("[--icc] Setting ICC profile: %s\n", iccOverrideFilename);
+            fprintf(stderr,"[--icc] Setting ICC profile: %s\n", iccOverrideFilename);
             result = avifImageSetProfileICC(decoder->image, iccOverride.data, iccOverride.size);
             if (result != AVIF_RESULT_OK) {
                 fprintf(stderr, "ERROR: Failed to set ICC: %s\n", avifResultToString(result));

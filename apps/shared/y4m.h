@@ -4,9 +4,9 @@
 #ifndef LIBAVIF_APPS_SHARED_Y4M_H
 #define LIBAVIF_APPS_SHARED_Y4M_H
 
-#include "avif/avif.h"
-
 #include "avifutil.h"
+
+#include "avif/avif.h"
 
 #ifdef __cplusplus
 extern "C" {

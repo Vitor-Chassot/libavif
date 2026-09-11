@@ -3,6 +3,11 @@
 
 // This is a barebones y4m reader/writer for basic libavif testing. It is NOT comprehensive!
 
+#include "avifutil.h"
+#include "avif/avif.h"
+#include "avifexif.h"
+
+
 #include "y4m.h"
 
 #include <assert.h>
@@ -12,9 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "avif/avif.h"
-#include "avifexif.h"
-#include "avifutil.h"
+
 
 #define Y4M_MAX_LINE_SIZE 2048 // Arbitrary limit. Y4M headers should be much smaller than this
 
@@ -617,7 +620,7 @@ avifBool y4mWrite(const char * outputFilename, const avifImage * avif)
 cleanup:
     fclose(f);
     if (success) {
-        printf("Wrote Y4M: %s\n", outputFilename);
+        fprintf(stderr,"Wrote Y4M: %s\n", outputFilename);
     }
     return success;
 }
